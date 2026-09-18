@@ -1,8 +1,13 @@
-FROM nginx:1.27-alpine
+FROM docker.m.daocloud.io/library/node:22-alpine
 
-COPY index.html /usr/share/nginx/html/index.html
+WORKDIR /app
+ENV NODE_ENV=production
+ENV PORT=3000
 
-RUN sed -i 's/listen       80;/listen       3000;/' /etc/nginx/conf.d/default.conf
+COPY index.html ./index.html
+COPY assets ./assets
+COPY server.js ./server.js
 
 EXPOSE 3000
+CMD ["node", "server.js"]
 
