@@ -5,7 +5,6 @@ ENV NODE_ENV=production
 ENV PORT=3000
 
 COPY index.html ./index.html
-COPY assets ./assets
 COPY server.js ./server.js
 
 EXPOSE 3000
