@@ -57,6 +57,34 @@
     document.querySelector("#backText").value = "\u53cd\u9762";
     document.querySelector("#coin").setAttribute("aria-label", "\u70b9\u51fb\u7ffb\u8f6c\u786c\u5e01");
   </script>
+  <script>
+    // Navigation and clock are kept in the same single-page flow.
+    const brand = document.querySelector(".mark");
+    brand.setAttribute("role", "button");
+    brand.setAttribute("tabindex", "0");
+    function returnToSetup(){
+      unlocked = false;
+      flipping = false;
+      coin.classList.remove("flipping");
+      screen.classList.add("hidden");
+      setup.classList.remove("hidden");
+      document.querySelector(".rail-item.active")?.classList.remove("active");
+      document.querySelector(".rail-item")?.classList.add("active");
+      document.querySelector("#logState").textContent = "READY";
+      document.querySelector("#status").textContent = "READY";
+    }
+    brand.onclick = returnToSetup;
+    brand.onkeydown = (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); returnToSetup(); } };
+    const topMeta = document.querySelector("header .header-meta");
+    topMeta.innerHTML = "SESSION 001<br><b>READY</b><br><span id=\"clock\">--:--:--</span>";
+    function updateClock(){ document.querySelector("#clock").textContent = new Date().toLocaleTimeString("zh-CN", {hour12:false}); }
+    updateClock();
+    setInterval(updateClock, 1000);
+    document.querySelector("#sideParams").innerHTML = "FRONT 50% / BACK 50%<br>METAL MORGAN SILVER";
+    function keepCoinName(){ document.querySelector("#sideParams").innerHTML = "FRONT "+prob.value+"% / BACK "+(100-prob.value)+"%<br>METAL MORGAN SILVER"; }
+    [prob, document.querySelector("#frontText"), document.querySelector("#backText")].forEach(el => el.addEventListener("input", keepCoinName));
+    document.querySelectorAll(".theme").forEach(el => el.addEventListener("click", keepCoinName));
+  </script>
 </body>
 </html>
 
